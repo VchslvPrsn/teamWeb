@@ -1,9 +1,13 @@
 <?php
-    session_start();
-    $login = $_POST['login'];
-    $password = $_POST['password'];
 
-    CreateSession($login, $password);
+if (!empty($_COOKIE['sid'])) {
+    // check session id in cookies
+    session_id($_COOKIE['sid']);
+}
+
+session_start();
+require_once 'classes/Auth.class.php';
+
 ?>
 <!doctype html>
 <html lang="ru">
@@ -27,7 +31,8 @@
     <meta name="description" content="">
     <meta name="generator" content=" ">
     <title>  </title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <style>
         .col {
           margin-bottom: 15px;
@@ -71,10 +76,39 @@
                 <ul class="nav nav-pills">
                     <a style="color: white;">
                      <span>
-                      <form method="POST" style="margin-right: 20px">
-                        <h5>Логин &nbsp&nbsp<input type = 'string' name='login' style="font-family: revert;font-size: small"></h5>
-                        <h5>Пароль <input type = 'string' name='pass'  style="font-family: revert;font-size: small"></h5>
+                     <div class="container">
+
+                      <?php if (Auth\User::isAuthorized()): ?>
+
+                      <form class="ajax" method="post" action="./ajax.php">
+                          <input type="hidden" name="act" value="logout">
+                          <div class="form-actions">
+                              <button class="btn btn-large btn-primary" type="submit">Logout</button>
+                          </div>
                       </form>
+
+                      <?php else: ?>
+
+                      <form class="form-signin ajax" method="post" action="./ajax.php">
+                        <div class="main-error alert alert-error hide"></div>
+
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <input name="username" type="text" class="input-block-level" placeholder="Username" autofocus>
+                        <input name="password" type="password" class="input-block-level" placeholder="Password">
+                        <label class="checkbox">
+                          <input name="remember-me" type="checkbox" value="remember-me" checked> Remember me
+                        </label>
+                        <input type="hidden" name="act" value="login">
+                        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+
+                        <div class="alert alert-info" style="margin-top:15px;">
+                            <p>Not have an account? <a href="/register.php">Register it.</a>
+                        </div>
+                      </form>
+
+                      <?php endif; ?>
+
+                      </div> <!-- /container -->
                     </span> 
                     </a>
               </ul>
@@ -634,6 +668,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-
+    <script src="./vendor/jquery-2.0.3.min.js"></script>
+    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./js/ajax-form.js"></script>
 </body>
 </html>
