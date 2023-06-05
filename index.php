@@ -176,30 +176,29 @@ require_once 'classes/Auth.class.php';
           </button>
             </div>
           </div> <br/>
-            <?php
-                        
+            <?php        
                         $query_genres = "select * from genres"; // Fetch all the data from the table customers
                         $link = mysqli_connect("localhost","root","root","booksdb");
                         $result = mysqli_query($link, $query_genres);
                         ?>
                         <?php if ($result->num_rows > 0) : ?>
                             <?php while ($array = mysqli_fetch_row($result)) : ?>
-                                <!-- <tr> -->
                                     <h2 style="text-align:center;"><?php echo $array[1]; ?></h2>
                                     <?php
                                     $query_books = "select * from books where genre_id =".$array[0];
                                     $resultbooks = mysqli_query($link, $query_books);
                                     ?>
+                                    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
                                     <?php while ($arraybook = mysqli_fetch_row($resultbooks)) : ?>
-                                      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
+                                      
                                         <div class="col">
                                           <div class="card h-100">
                                           <?php $sql = "SELECT * FROM books WHERE id =".$arraybook[0];
                                             $stmt = $link->prepare($sql);
                                             // $stmt->bind_param('s', $id);
                                             $stmt->execute();
-                                            $result = $stmt->get_result();
-                                            $row = $result->fetch_array();
+                                            $resultimg = $stmt->get_result();
+                                            $row = $resultimg->fetch_array();
                                             
                                           ?>
                                           <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($row['preview']).'"/>'; ?>
@@ -218,20 +217,18 @@ require_once 'classes/Auth.class.php';
                                               <?php echo 'Продавец: '.$arraybook['name']; ?>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                          
-                                        
+                                        </div>  
                                     <?php endwhile; ?>
-                                </tr>
+                                    <?php mysqli_free_result($resultbooks); ?>
+                                </div>
                             <?php endwhile; ?>
                         <?php else : ?>
-                            <tr>
-                                <td colspan="3" rowspan="1" headers="">No Data Found</td>
-                            </tr>
+                            
+                                <a colspan="3" rowspan="1" headers="">No Data Found</a>
+                            
                         <?php endif; ?>
                         <?php mysqli_free_result($result); ?>
-                        </table>
+                        
             <!-- <h2 id="scroll1" style="text-align:center;">Образование</h2><br/>
                  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
 
@@ -697,27 +694,7 @@ require_once 'classes/Auth.class.php';
             </div>
         </nav>
       </div>
-      <script type="text/jаvascript">
-        $(document).ready(function($) {
-            $('body').on('click', '.view', function() {
-                var id = $(this).data('id');
-                // ajax
-                $.ajax({
-                    type: "POST",
-                    url: "ajax-fetch-record.php",
-                    dаta: {
-                        id: id
-                    },
-                    dataType: 'json',
-                    success: function(res) {
-                        $('#fname').html(res.fname);
-                        $('#lname').html(res.lname);
-                        $('#email').html(res.email);
-                    }
-                });
-            });
-        });
-    </script>
+      </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="./vendor/jquery-2.0.3.min.js"></script>
