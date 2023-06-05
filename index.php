@@ -179,7 +179,30 @@ require_once 'classes/Auth.class.php';
 
 
             <div class="studies">
-            <h2 id="scroll1" style="text-align:center;">Образование</h2><br/>
+            <?php
+                        
+                        $query = "select * from genres"; // Fetch all the data from the table customers
+                        $link = mysqli_connect("localhost","root","root","booksdb");
+                        $result = mysqli_query($link, $query);
+                        ?>
+                        <?php if ($result->num_rows > 0) : ?>
+                            <?php while ($array = mysqli_fetch_row($result)) : ?>
+                                <tr>
+                                    <th scope="row"><?php echo $array[0]; ?></th>
+                                    <td><?php echo $array[1]; ?></td>
+                                    <td><?php echo $array[2]; ?></td>
+                                    <td><?php echo $array[3]; ?></td>
+                                    <td>
+                                        <a href="jаvascript:void(0)" class="btn btn-primary view" data-id="<?php echo $array[0]; ?>">View</a>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else : ?>
+                            <tr>
+                                <td colspan="3" rowspan="1" headers="">No Data Found</td>
+                            </tr>
+                        <?php endif; ?>
+                        <?php mysqli_free_result($result); ?>
+            <!-- <h2 id="scroll1" style="text-align:center;">Образование</h2><br/>
                  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
 
               <div class="col">
@@ -242,7 +265,7 @@ require_once 'classes/Auth.class.php';
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
               <div class="story">

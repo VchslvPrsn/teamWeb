@@ -1,6 +1,8 @@
 <?php
 
 include './classes/Auth.class.php';
+include './classes/Book.class.php';
+include './classes/Category.class.php';
 include './classes/AjaxRequest.class.php';
 
 if (!empty($_COOKIE['sid'])) {
@@ -124,7 +126,33 @@ class AuthorizationAjaxRequest extends AjaxRequest
         $this->setResponse("redirect", "/");
         $this->status = "ok";
     }
+
+    public function addBook()
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+            // Method Not Allowed
+            http_response_code(405);
+            header("Allow: POST");
+            $this->setFieldError("main", "Method Not Allowed");
+            return;
+        }
+        
+    }
+
+    public function viewBooks()
+    {
+        if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+            // Method Not Allowed
+            http_response_code(405);
+            header("Allow: GET");
+            $this->setFieldError("main", "Method Not Allowed");
+            return;
+        }
+        
+        
+    }
 }
 
+    
 $ajaxRequest = new AuthorizationAjaxRequest($_REQUEST);
 $ajaxRequest->showResponse();
