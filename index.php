@@ -123,12 +123,12 @@ require_once 'classes/Auth.class.php';
               </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                  <a class="nav-link" aria-current="page" href="#scroll1"><h5>Образование</h5></a>
+                  <!-- <a class="nav-link" aria-current="page" href="#scroll1"><h5>Образование</h5></a>
                   <a class="nav-link" href="#scroll2"><h5>Рассказы</h5></a>
                   <a class="nav-link" href="#scroll3"><h5>Детективы</h5></a>
                   <a class="nav-link" href="#scroll4"><h5>Фантастика</h5></a>
                   <a class="nav-link" href="#scroll5"><h5>Поэзия</h5></a>
-                  <a class="nav-link" href="#scroll6"><h5>Романы</h5></a>
+                  <a class="nav-link" href="#scroll6"><h5>Романы</h5></a> -->
                   <a><form class="d-flex" role="search">
                   <input class="form-control me-2" type="search" placeholder="Введите название книги" aria-label="Введите название книги">
                   <button class="btn btn-outline-light" type="submit">Поиск</button>
@@ -176,24 +176,53 @@ require_once 'classes/Auth.class.php';
           </button>
             </div>
           </div> <br/>
-
-
-            <div class="studies">
             <?php
                         
-                        $query = "select * from genres"; // Fetch all the data from the table customers
+                        $query_genres = "select * from genres"; // Fetch all the data from the table customers
                         $link = mysqli_connect("localhost","root","root","booksdb");
-                        $result = mysqli_query($link, $query);
+                        $result = mysqli_query($link, $query_genres);
                         ?>
                         <?php if ($result->num_rows > 0) : ?>
                             <?php while ($array = mysqli_fetch_row($result)) : ?>
-                                <tr>
-                                    <th scope="row"><?php echo $array[0]; ?></th>
-                                    <td><?php echo $array[1]; ?></td>
-                                    <td><?php echo $array[2]; ?></td>
-                                    <td><?php echo $array[3]; ?></td>
-                                    <td>
-                                        <a href="jаvascript:void(0)" class="btn btn-primary view" data-id="<?php echo $array[0]; ?>">View</a>
+                                <!-- <tr> -->
+                                    <h2 style="text-align:center;"><?php echo $array[1]; ?></h2>
+                                    <?php
+                                    $query_books = "select * from books where genre_id =".$array[0];
+                                    $resultbooks = mysqli_query($link, $query_books);
+                                    ?>
+                                    <?php while ($arraybook = mysqli_fetch_row($resultbooks)) : ?>
+                                      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
+                                        <div class="col">
+                                          <div class="card h-100">
+                                          <?php $sql = "SELECT * FROM books WHERE id =".$arraybook[0];
+                                            $stmt = $link->prepare($sql);
+                                            // $stmt->bind_param('s', $id);
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
+                                            $row = $result->fetch_array();
+                                            
+                                          ?>
+                                          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($row['preview']).'"/>'; ?>
+                                            
+                                            <div class="card-body">
+                                              <h5 class="card-title"><?php echo $arraybook[1]; ?></h5>
+                                              <p class="card-text"><?php echo $arraybook[2]; ?></p>
+                                            </div>
+                                            <div class="card-footer">
+                                              <small class="text-body-secondary"><?php echo $arraybook[4]; ?> руб</small><br/>
+                                              <?php
+                                              $query_users = "select * from users where id =".$arraybook[5];
+                                              $resultuser = mysqli_query($link, $query_users);
+                                              $arraybook = mysqli_fetch_assoc($resultuser)
+                                              ?>
+                                              <?php echo 'Продавец: '.$arraybook['name']; ?>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                          
+                                        
+                                    <?php endwhile; ?>
                                 </tr>
                             <?php endwhile; ?>
                         <?php else : ?>
@@ -202,6 +231,7 @@ require_once 'classes/Auth.class.php';
                             </tr>
                         <?php endif; ?>
                         <?php mysqli_free_result($result); ?>
+                        </table>
             <!-- <h2 id="scroll1" style="text-align:center;">Образование</h2><br/>
                  <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
 
@@ -266,9 +296,8 @@ require_once 'classes/Auth.class.php';
                 </div>
               </div>
             </div> -->
-          </div>
 
-              <div class="story">
+              <!-- <div class="story">
               <h2 id="scroll2" style="text-align:center;">Рассказы</h2><br/>
               <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
 
@@ -641,7 +670,7 @@ require_once 'classes/Auth.class.php';
                 <h2 id="scroll6" style="text-align:center;">О нас</h2>
                 <p style="text-align:center; margin-left: 10%; margin-right: 10%;">Наш магазин специализируетсяся на продаже изданий, вышедших из тиража. Оказываем помощь в поиске книг, будь-то редкое коллекционное издание или специализированная литература.  Интернет-магазин не имеет розничных магазинов, складов и шоу-румов. Отправка заказанных книг осуществляется почтой России или транспортными компаниями. Книги на реализацию не принимаем.</p>
               </div>
-            </div>
+            </div> -->
             <br/>
        
 
