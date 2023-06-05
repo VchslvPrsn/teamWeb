@@ -697,27 +697,27 @@ require_once 'classes/Auth.class.php';
             </div>
         </nav>
       </div>
-
-
-        
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <script type="text/jаvascript">
+        $(document).ready(function($) {
+            $('body').on('click', '.view', function() {
+                var id = $(this).data('id');
+                // ajax
+                $.ajax({
+                    type: "POST",
+                    url: "ajax-fetch-record.php",
+                    dаta: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(res) {
+                        $('#fname').html(res.fname);
+                        $('#lname').html(res.lname);
+                        $('#email').html(res.email);
+                    }
+                });
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="./vendor/jquery-2.0.3.min.js"></script>
