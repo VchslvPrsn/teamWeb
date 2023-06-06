@@ -91,10 +91,12 @@ require_once 'classes/Auth.class.php';
                       <form class="ajax" method="post" action="./ajax.php">
                           <input type="hidden" name="act" value="logout">
                           <div class="form-actions">
-                              <button class="btn btn-large btn-primary" type="submit">Logout</button>
+                              <button class="btn btn-large btn-primary" type="submit">Выйти</button>
                           </div>
                       </form>
-
+                      <form action="/lk.php" target="_blank">
+                      <button class="btn btn-large btn-primary" type="submit">Личный кабинет</button>
+                      </form>
                       <?php else: ?>
 
                       <form class="form-signin ajax" method="post" action="./ajax.php">
