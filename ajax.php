@@ -137,6 +137,24 @@ class AuthorizationAjaxRequest extends AjaxRequest
             return;
         }
         
+        setcookie("sid", "");
+
+        $name = $this->getRequestParam("name");
+        $author = $this->getRequestParam("author");
+        $genre_id = $this->getRequestParam("genre_id");
+        $price = $this->getRequestParam("price");
+        $seller_id = $this->getRequestParam("seller_id");
+        $image = $this->getRequestParam("image");
+
+        $book = Book\Book();
+
+        try {
+            $new_book_id = $book->create($name, $author, $genre_id, $price, $seller_id, $image);
+        } catch (\Exception $e) {
+            $this->setFieldError("name", $e->getMessage());
+            return;
+        }
+
     }
 
     public function viewBooks()

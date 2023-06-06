@@ -11,7 +11,7 @@ require_once './classes/Auth.class.php';
 <html>
   <head>
     <meta charset="utf-8">
-    <title>PHP Ajax Registration</title>
+    <title>Личный кабинет</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/style.css">
@@ -22,65 +22,66 @@ require_once './classes/Auth.class.php';
     <div class="container">
 
       <?php if (Auth\User::isAuthorized()): ?>
-    
-      <h1>Личный кабинет</h1>
-      <?php        
-                        $query_genres = "select * from genres"; // Fetch all the data from the table customers
+        <form class="form-signin ajax" method="post" action="./ajax.php">
+        <div class="main-error alert alert-error hide"></div>
+
+        <h2 class="form-signin-heading">Please sign up</h2>
+        <input name="name" type="text" class="input-block-level" placeholder="name" autofocus>
+        <input name="author" type="text" class="input-block-level" placeholder="Password">
+        <input name="genre_id" type="number" class="input-block-level" placeholder="Confirm password">
+        <input name="price" type="number" class="input-block-level" placeholder="Confirm password">
+        <input type="hidden" value="<?php echo $_SESSION['user_id']; ?>" name="seller_id" type="number" class="input-block-level" placeholder="Confirm password">
+        <input name="image" type="file" class="input-block-level" placeholder="Confirm password">
+        <input type="hidden" name="act" value="addBook">
+        <button class="btn btn-large btn-primary" type="submit">Register</button>
+      </form>
+                                    
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Название</th>
+                            <th scope="col">Автор</th>
+                            <th scope="col">Жанр</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Картинка</th>
+                            <th scope="col">Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
                         $link = mysqli_connect("localhost","root","root","booksdb");
-                        $result = mysqli_query($link, $query_genres);
+                        $query = "select * from books where seller_id =".$_SESSION['user_id']; // Fetch all the data from the table customers
+                        $result = mysqli_query($link, $query);
                         ?>
                         <?php if ($result->num_rows > 0) : ?>
                             <?php while ($array = mysqli_fetch_row($result)) : ?>
-                                    <h2 style="text-align:center;"><?php echo $array[1]; ?></h2>
-                                    <?php
-                                    $query_books = "select * from books where genre_id =".$array[0];
-                                    $resultbooks = mysqli_query($link, $query_books);
-                                    ?>
-                                    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-                                    <?php while ($arraybook = mysqli_fetch_row($resultbooks)) : ?>
-                                      
-                                        <div class="col">
-                                          <div class="card h-100">
-                                          <?php $sql = "SELECT * FROM books WHERE id =".$arraybook[0];
-                                            $stmt = $link->prepare($sql);
-                                            // $stmt->bind_param('s', $id);
-                                            $stmt->execute();
-                                            $resultimg = $stmt->get_result();
-                                            $row = $resultimg->fetch_array();
-                                            
-                                          ?>
-                                          <?php echo '<img width=8% src="data:image/jpeg;base64,'.base64_encode($row['preview']).'"/>'; ?>
-                                            
-                                            <div class="card-body">
-                                              <h5 class="card-title"><?php echo $arraybook[1]; ?></h5>
-                                              <p class="card-text"><?php echo $arraybook[2]; ?></p>
-                                            </div>
-                                            <div class="card-footer">
-                                              <small class="text-body-secondary"><?php echo $arraybook[4]; ?> руб</small><br/>
-                                              <?php
-                                              $query_users = "select * from users where id =".$arraybook[5];
-                                              $resultuser = mysqli_query($link, $query_users);
-                                              $arraybook = mysqli_fetch_assoc($resultuser)
-                                              ?>
-                                              <?php echo 'Продавец: '.$arraybook['name']; ?>
-                                              <?php
-                                                $querydel = "delete * from books where id =".$arraybook['id'];
-                                              ?>
-                                              <br/>
-                                              <button class="btn">Удалить</button>
-                                            </div>
-                                          </div>
-                                        </div>  
-                                    <?php endwhile; ?>
-                                    <?php mysqli_free_result($resultbooks); ?>
-                                </div>
+                                <tr>
+                                    <th scope="row"><?php echo $array[1]; ?></th>
+                                    <td><?php echo $array[2]; ?></td>
+                                    <td><?php $query_genres = "select * from genres where id=".$array[3];
+                                        $result_genres = mysqli_query($link, $query_genres);
+                                        $array_genres = mysqli_fetch_row($result_genres);
+                                        echo $array_genres[1];
+                                    ?></td>
+                                    <td><?php echo $array[4]; ?></td>
+                                    <td><?php echo '<img width=30% src="data:image/jpeg;base64,'.base64_encode($array[6]).'"/>'; ?></td>
+                                    <td>  
+                                    <div class="showdata">
+                                    <span class='delete' data-id='<?= $array[0]; ?>'>Удалить</span>
+                                    </div>
+                                    </td>
+                                </tr>
                             <?php endwhile; ?>
+                            
                         <?php else : ?>
-                            
-                                <a colspan="3" rowspan="1" headers="">No Data Found</a>
-                            
+                            <tr>
+                                <td colspan="3" rowspan="1" headers="">No Data Found</td>
+                            </tr>
                         <?php endif; ?>
                         <?php mysqli_free_result($result); ?>
+                    </tbody>
+                </table>
+                </form>
       <!-- <form class="form-signin ajax" method="post" action="./ajax.php">
         <div class="main-error alert alert-error hide"></div>
 
@@ -101,7 +102,58 @@ require_once './classes/Auth.class.php';
       <?php endif; ?> -->
 
     </div> <!-- /container -->
+    <script src="jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function($) {
+            $('#bookInserUpdateForm').submit(function() {
+                // ajax
+                $.ajax({
+                    type: "POST",
+                    url: "insert.php",
+                    data: $(this).serialize(), // get all form field value in 
+                    dataType: 'json',
+                    success: function(res) {
+                        window.location.reload();
+                    }
+                });
+            });
+        });
 
+        $(document).ready(function(){
+        // Delete 
+        $('.delete').click(function(){
+        var el = this;
+        
+        // Delete id
+        var deleteid = $(this).data('id');
+
+        var confirmalert = confirm("Are you sure?");
+        if (confirmalert == true) {
+            // AJAX Request
+            $.ajax({
+            url: 'delete.php',
+            type: 'POST',
+            data: { id:deleteid },
+            success: function(response){
+
+                if(response == 1){
+            // Remove row from HTML Table
+            $(el).closest('tr').css('background','tomato');
+            $(el).closest('tr').fadeOut(800,function(){
+                $(this).remove();
+            });
+                }else{
+            alert('Invalid ID.');
+                }
+
+            }
+            });
+        }
+
+        });
+
+        });
+    </script>
     <script src="./vendor/jquery-2.0.3.min.js"></script>
     <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="./js/ajax-form.js"></script>
