@@ -139,8 +139,7 @@ require_once 'classes/Auth.class.php';
                   <a class="nav-link" href="#scroll6"><h5>Романы</h5></a> -->
                   <div class="search_box">
                   <form action="">
-                    <input type="text" name="search" id="search" placeholder="Введите город">
-                    <input type="submit">			
+                    <input type="text" name="search" id="search" placeholder="Введите название">		
                   </form>
                   <div id="search_box-result"></div>
                 </div>
