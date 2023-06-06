@@ -12,16 +12,20 @@ require_once 'classes/Auth.class.php';
 <!doctype html>
 <html lang="ru">
 <head>
+    <link rel="stylesheet" href="jquery-ui.css">
     <link rel="shortcut icon" href="..." type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
     
     <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
     <title>Ком</title>
     <meta name="keywords" content="..." />
     <meta name="description" content="..." />
@@ -55,7 +59,11 @@ require_once 'classes/Auth.class.php';
           margin-left: 10%;
           margin-right: 10%;
         }
-     
+        .ui-autocomplete {
+          max-height: 20em;
+          overflow: hidden;
+          overflow-y: scroll;
+        }
     </style>
 <!-- @media-breakpoint-up(lg) {
         .d-flex {
@@ -129,10 +137,13 @@ require_once 'classes/Auth.class.php';
                   <a class="nav-link" href="#scroll4"><h5>Фантастика</h5></a>
                   <a class="nav-link" href="#scroll5"><h5>Поэзия</h5></a>
                   <a class="nav-link" href="#scroll6"><h5>Романы</h5></a> -->
-                  <a><form class="d-flex" role="search">
-                  <input class="form-control me-2" type="search" placeholder="Введите название книги" aria-label="Введите название книги">
-                  <button class="btn btn-outline-light" type="submit">Поиск</button>
-                </form></a>
+                  <div class="search_box">
+                  <form action="">
+                    <input type="text" name="search" id="search" placeholder="Введите город">
+                    <input type="submit">			
+                  </form>
+                  <div id="search_box-result"></div>
+                </div>
                 </div>
               </div>
             </div>
@@ -229,445 +240,7 @@ require_once 'classes/Auth.class.php';
                         <?php endif; ?>
                         <?php mysqli_free_result($result); ?>
                         
-            <!-- <h2 id="scroll1" style="text-align:center;">Образование</h2><br/>
-                 <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/mole.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Молекулы и кристаллы</h5>
-                    <p class="card-text">И.В. Обреимов</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">2 999 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/word.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">В стране драконов и сказочных птиц</h5>
-                    <p class="card-text">Хайнц Зильман</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 599 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/music.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Как работает музыка</h5>
-                    <p class="card-text">Дэвид Бирн</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 999 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/clin.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Клиническая токсикология</h5>
-                    <p class="card-text">Е.А. Лужников</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 299 руб</small>
-                  </div>
-                </div>
-              </div>
-               <div class="col">
-                <div class="card h-100">
-                  <img src="images/blood.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Болезни системы крови</h5>
-                    <p class="card-text">Н.М. Зубарева</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">799 руб</small>
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-              <!-- <div class="story">
-              <h2 id="scroll2" style="text-align:center;">Рассказы</h2><br/>
-              <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/mos.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Путешествие из Петербурга в Москву</h5>
-                    <p class="card-text">А.Н. Радищев</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 999 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/rus.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Николаевская Россия</h5>
-                    <p class="card-text">Маркиз де-Кюстин</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">2 699 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/cap.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Капитан Кук</h5>
-                    <p class="card-text">Э. Маклин</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 299 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/oce.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Пешком через ледовитый океан</h5>
-                    <p class="card-text">У. Херберт</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 499 руб</small>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card h-100">
-                  <img src="images/hant.png" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Записки охотника</h5>
-                    <p class="card-text">И.С. Тургенев</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-body-secondary">1 999 руб</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-             <div class="detective">
-             <h2 id="scroll3" style="text-align:center;">Детективы</h2><br/>
-              <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-
-              <div class="col">
-              <div class="card h-100">
-              <img src="images/reporter.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Репортер</h5>
-                <p class="card-text">Ю.С. Семонов</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 099 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/agent.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Агент абвера</h5>
-                <p class="card-text">В. Владимиров</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 099 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/order.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Ордер на убийств</h5>
-                <p class="card-text">А.С. Ромов </p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 299 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/heaven.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Небеса рассудили иначe</h5>
-                <p class="card-text">Т.В. Полякова </p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 399 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/cave.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Пещера</h5>
-                <p class="card-text">Дж. Роллинс</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 499 руб</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-          <div class="fantastic">
-           <h2 id="scroll4" style="text-align:center;">Фантастика</h2><br/>
-              <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-
-              <div class="col">
-              <div class="card h-100">
-              <img src="images/light.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Огни небес</h5>
-                <p class="card-text">Р. Джордан</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">2 999 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/garden.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Садовник</h5>
-                <p class="card-text">С. Бодин</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 699 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/star.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Созвездие Пса</h5>
-                <p class="card-text">А. Валентинов</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 299 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/dark.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Темный паладин</h5>
-                <p class="card-text">В. Маханенко</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 999 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/king.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Возвращение государя</h5>
-                <p class="card-text">Джон Толкин</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 299 руб</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-         <div class="poetry">
-         <h2 id="scroll5" style="text-align:center;">Поэзия</h2><br/>
-              <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-
-              <div class="col">
-              <div class="card h-100">
-              <img src="images/new book.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Новая книга</h5>
-                <p class="card-text">Л. Мартынов</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 499 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/songs.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Где же наша звезда? Песни</h5>
-                <p class="card-text">В. Высоцкий</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 399 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/akhmatova.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Стихотворения и поэмы</h5>
-                <p class="card-text">А. Ахматова</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 299 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/tsvetaeva.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Стихотворения и поэмы</h5>
-                <p class="card-text">М.И. Цветаева</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 999 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/bunin.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Стихотворения. Повести. Рассказы</h5>
-                <p class="card-text">И.А. Бунин</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">2 999 руб</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-          <div class="novels">
-         <h2 id="scroll6" style="text-align:center;">Романы</h2><br/>
-              <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-
-              <div class="col">
-              <div class="card h-100">
-              <img src="images/novels.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Избранные романы</h5>
-                <p class="card-text">А. Беляев</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 799 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/conq.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Завоеватель</h5>
-                <p class="card-text">Э. Чедвик</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 699 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/wings.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Трепет черных крыльев</h5>
-                <p class="card-text">Т. Корсакова</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">2 299 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/composit.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Собрание сочинений</h5>
-                <p class="card-text">Э. Хемингуэй</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 999 руб</small>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img src="images/financier.png" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Финансист</h5>
-                <p class="card-text">Т. Драйзер</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-body-secondary">1 499 руб</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-         <div class="reviews">
-         <h2 id="scroll6" style="text-align:center;">Отзывы</h2><br/>
-            <div class="row row-cols-2 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2" style="margin-left: 2%; margin-right: 2%; margin-bottom: 20px">
-                    <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/medicine.png" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Ирина, 20</h5>
-                    <p class="card-text">Спасибо большое этому магазину за то, что смогла найти нужную мне книгу. Обыскала все книжные, но увы, ничего не нашла. Книга помогла подготовиться к важному экзамену в институте.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="images/symbols .png" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Владимир, 32</h5>
-                    <p class="card-text">Эта книга дополнила мою большую колллекцию, было интересно и познавательно узнавать что-то новое. Самое интересное, что эту книгу нигде не встречал, было приятно увидеть ее в этом магазине.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-                </div>
-                </div> <br/>  
-
-              <div class="about us">
-                <h2 id="scroll6" style="text-align:center;">О нас</h2>
-                <p style="text-align:center; margin-left: 10%; margin-right: 10%;">Наш магазин специализируетсяся на продаже изданий, вышедших из тиража. Оказываем помощь в поиске книг, будь-то редкое коллекционное издание или специализированная литература.  Интернет-магазин не имеет розничных магазинов, складов и шоу-румов. Отправка заказанных книг осуществляется почтой России или транспортными компаниями. Книги на реализацию не принимаем.</p>
-              </div>
-            </div> -->
+           
             <br/>
        
 
@@ -695,9 +268,59 @@ require_once 'classes/Auth.class.php';
         </nav>
       </div>
       </div>
+      <script>
+        $(document).ready(function() {	
+        var $result = $('#search_box-result');
+        
+        $('#search').on('keyup', function(){
+          var search = $(this).val();
+          if ((search != '') && (search.length > 1)){
+            $.ajax({
+              type: "POST",
+              url: "/search.php",
+              data: {'search': search},
+              success: function(msg){
+                $result.html(msg);
+                if(msg != ''){	
+                  $result.fadeIn();
+                } else {
+                  $result.fadeOut(100);
+                }
+              }
+            });
+          } else {
+            $result.html('');
+            $result.fadeOut(100);
+          }
+        });
+      
+        $(document).on('click', function(e){
+          if (!$(e.target).closest('.search_box').length){
+            $result.html('');
+            $result.fadeOut(100);
+          }
+        });
+        
+        $(document).on('click', '.search_result-name a', function(){
+          $('#search').val($(this).text());
+          $result.fadeOut(100);
+          return false;
+        });
+        
+        $(document).on('click', function(e){
+          if (!$(e.target).closest('.search_box').length){
+            $result.html('');
+            $result.fadeOut(100);
+          }
+        });
+        
+        });
+      </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="./vendor/jquery-2.0.3.min.js"></script>
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
     <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="./js/ajax-form.js"></script>
 </body>
