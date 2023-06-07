@@ -75,3 +75,22 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+<?php if (Auth\User::isAuthorized()): ?>
+        <form class="form-signin ajax" method="post" action="./ajax.php">
+        <div class="main-error alert alert-error hide"></div>
+
+        <h2 class="form-signin-heading">Please sign up</h2>
+        <input name="name" type="text" class="input-block-level" placeholder="name" autofocus>
+        <input name="author" type="text" class="input-block-level" placeholder="Password">
+        <input name="genre_id" type="number" class="input-block-level" placeholder="Confirm password">
+        <input name="price" type="number" class="input-block-level" placeholder="Confirm password">
+        <input type="hidden" value="<?php echo $_SESSION['user_id']; ?>" name="seller_id" type="number" class="input-block-level" placeholder="Confirm password">
+        <input name="image" type="file" class="input-block-level" placeholder="Confirm password">
+        <input type="hidden" name="act" value="addBook">
+        <button class="btn btn-large btn-primary" type="submit">Register</button>
+      </form>

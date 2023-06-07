@@ -1,12 +1,14 @@
 <?php
+session_start();
+include('/lk.php');
+$con=mysqli_connect("localhost","root","root","booksdb");
     if(count($_POST)>0) {    
-        $con=mysqli_connect("localhost","root","root","booksdb");
         $name = $_POST['name'];
         $author = $_POST['author'];
-        $genre = $_POST['genre'];
+        $genre = $_POST['genres'];
         $price = $_POST['price'];
         $seller = $_SESSION['user_id'];
-        $image = $_POST['image'];
+        $image = addslashes(file_get_contents($_FILES['image']['name']));
         if(empty($_POST['id'])){
             $query = "insert into books(name,author,genre_id,price,seller_id,preview)
             VALUES ('$name','$author','$genre','$price','$seller','$image')";

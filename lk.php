@@ -20,21 +20,85 @@ require_once './classes/Auth.class.php';
   <body>
 
     <div class="container">
-
-      <?php if (Auth\User::isAuthorized()): ?>
-        <form class="form-signin ajax" method="post" action="./ajax.php">
-        <div class="main-error alert alert-error hide"></div>
-
-        <h2 class="form-signin-heading">Please sign up</h2>
-        <input name="name" type="text" class="input-block-level" placeholder="name" autofocus>
-        <input name="author" type="text" class="input-block-level" placeholder="Password">
-        <input name="genre_id" type="number" class="input-block-level" placeholder="Confirm password">
-        <input name="price" type="number" class="input-block-level" placeholder="Confirm password">
-        <input type="hidden" value="<?php echo $_SESSION['user_id']; ?>" name="seller_id" type="number" class="input-block-level" placeholder="Confirm password">
-        <input name="image" type="file" class="input-block-level" placeholder="Confirm password">
-        <input type="hidden" name="act" value="addBook">
-        <button class="btn btn-large btn-primary" type="submit">Register</button>
-      </form>
+    <?php if (Auth\User::isAuthorized()): ?>
+    <input type="hidden" name="act" value="logout">
+                          <div class="form-actions">
+                          <form action="./index.php">
+                              <button class="btn btn-large btn-primary" type="submit">Выйти</button>
+                          </form>
+                          </div>
+                      </form>
+                      <div id="book-model" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="bookModel"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" id="bookInserUpdateForm" name="bookInserUpdateForm" class="form-horizontal" method="POST">
+                                    <input type="hidden" name="id" id="id">
+                                    <div class="form-group">
+                                        <label for="name" class="col-sm-2 control-label">Название</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" id="name" name="name" value="" maxlength="50" required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name" class="col-sm-2 control-label">Автор</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" id="author" name="author" value="" maxlength="50" required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Жанр</label>
+                                        <div class="col-sm-12">
+                                            <!-- <input type="text" class="form-control" id="genre" name="genre" value="" required=""> -->
+                                            <select name="genres" >
+                                                <?php
+                                                    // use a while loop to fetch data
+                                                    // from the $all_categories variable
+                                                    // and individually display as an option
+                                                    $link = mysqli_connect("localhost","root","root","booksdb");
+                                                    $query_genres = "select * from genres";
+                                                    $result_genres = mysqli_query($link,$query_genres);
+                                                    while ($genre = mysqli_fetch_array(
+                                                            $result_genres)):;
+                                                ?>
+                                                    <option id="genre" name="genre" value="<?php echo $genre[0];?>">
+                                                        <?php echo $genre[1];
+                                                            // To show the category name to the user
+                                                        ?>
+                                                    </option>
+                                                <?php
+                                                    endwhile;
+                                                    // While loop must be terminated
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Цена</label>
+                                        <div class="col-sm-12">
+                                            <input type="number" class="form-control" id="price" name="price" value="" required="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Картинка</label>
+                                        <div class="col-sm-12">
+                                            <input type="file" class="form-control" id="image" name="image" value="" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-primary" id="btn-save" value="addNewBook">Добавить
+                                        </button>
+                                    </div>
+                                    </form>
+				                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                                     
                 <table class="table">
                     <thead>
@@ -94,16 +158,16 @@ require_once './classes/Auth.class.php';
         <div class="alert alert-info" style="margin-top:15px;">
             <p>Already have account? <a href="/">Sign In.</a>
         </div>
-      </form>
+      </form>-->
       <?php else: ?>
         <h1>Вы не авторизованы</h1>
       <a href='/index.php'>На главную</a>
 
-      <?php endif; ?> -->
+      <?php endif; ?> 
 
     </div> <!-- /container -->
     <script src="jquery.js"></script>
-    <script type="text/javascript">
+    <script>
         $(document).ready(function($) {
             $('#bookInserUpdateForm').submit(function() {
                 // ajax
