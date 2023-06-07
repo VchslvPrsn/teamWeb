@@ -8,7 +8,8 @@ $con=mysqli_connect("localhost","root","root","booksdb");
         $genre = $_POST['genres'];
         $price = $_POST['price'];
         $seller = $_SESSION['user_id'];
-        $image = addslashes(file_get_contents($_FILES['image']['name']));
+        $image = file_get_contents($_FILES["image"]["tmp_name"]);
+        $image = mysqli_escape_string($image);
         if(empty($_POST['id'])){
             $query = "insert into books(name,author,genre_id,price,seller_id,preview)
             VALUES ('$name','$author','$genre','$price','$seller','$image')";

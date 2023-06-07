@@ -85,7 +85,7 @@ require_once './classes/Auth.class.php';
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Картинка</label>
                                         <div class="col-sm-12">
-                                            <input type="file" class="form-control" id="image" name="image" value="" required="">
+                                            <input type="file" class="form-control" id="image" name="image" required="">
                                         </div>
                                     </div>
                                     <div class="col-sm-offset-2 col-sm-10">
